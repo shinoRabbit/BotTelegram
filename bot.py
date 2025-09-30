@@ -3,6 +3,8 @@ import json
 import random
 import re
 import aiohttp
+from datetime import time
+
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
 
@@ -13,12 +15,73 @@ TOKEN = os.getenv("TOKEN")
 BOT_NAME = "ChumelitoBot"
 VERSION = "vFinal-29Sep2025"
 CHISTES_DIR = "chistes"
+MENSAJES_DIARIO_JSON = os.path.join("mjsDelDia", "mjeDiario.json")
+
+# Set global para evitar repetir mensajes
+mensajes_enviados_global = set()
 
 # ==============================
-# Utilidades
+# Cargar Mensajes Diario
+# ==============================
+def cargar_mensajes():
+    try:
+        with open(MENSAJES_DIARIO_JSON, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"❌ Error cargando {MENSAJES_DIARIO_JSON}: {e}")
+        return None
+
+# ==============================
+# Seleccionar Mensaje Aleatorio sin Repetición Global
+# ==============================
+def seleccionar_mensaje_aleatorio_no_repetido():
+    mensajes = cargar_mensajes()
+    if not mensajes or "categorias" not in mensajes:
+        return None, None
+
+    # Crear lista de todos los mensajes con su categoria
+    todos_mensajes = []
+    for cat, lista in mensajes["categorias"].items():
+        for msg in lista:
+            todos_mensajes.append((cat, msg))
+
+    # Filtrar los que ya fueron enviados
+    disponibles = [item for item in todos_mensajes if item[1] not in mensajes_enviados_global]
+
+    # Si ya no hay disponibles, reiniciar
+    if not disponibles:
+        mensajes_enviados_global.clear()
+        disponibles = todos_mensajes
+
+    categoria, mensaje = random.choice(disponibles)
+    mensajes_enviados_global.add(mensaje)
+    return categoria, mensaje
+
+# ==============================
+# Enviar Mensaje Diario
+# ==============================
+async def enviar_mensaje_diario(context):
+    chat_id = context.job.context
+    categoria, mensaje = seleccionar_mensaje_aleatorio_no_repetido()
+
+    if mensaje:
+        texto = f"El Mensaje {categoria.capitalize()} del día: \"{mensaje}\""
+        await context.bot.send_message(chat_id=chat_id, text=texto)
+    else:
+        print("⚠ No hay mensajes disponibles para enviar hoy.")
+
+# ==============================
+# Programar Mensaje Diario
+# ==============================
+async def programar_mensaje_diario(app, chat_id):
+    hora_envio = time(9, 0)  # 9 AM
+    app.job_queue.run_daily(enviar_mensaje_diario, hora_envio, context=chat_id)
+    print(f"✅ Mensaje diario programado para chat_id {chat_id} a las 9:00 AM.")
+
+# ==============================
+# Utilidades de chistes
 # ==============================
 def limpiar_chiste(texto: str) -> str:
-    """Limpia HTML parcial para Telegram"""
     if not isinstance(texto, str):
         texto = str(texto)
     texto = re.sub(r'<\s*p\s*>', '', texto, flags=re.IGNORECASE)
@@ -76,6 +139,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         parse_mode="HTML",
         reply_markup=reply_markup,
     )
+    # Programar mensaje diario automáticamente
+    await programar_mensaje_diario(context.application, update.message.chat_id)
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = (
@@ -139,7 +204,6 @@ async def enviar_chiste(update: Update, context: ContextTypes.DEFAULT_TYPE, cate
         return
 
     chiste = random.choice(chistes)
-
     keyboard = [
         [InlineKeyboardButton("🔄 Otro", callback_data=f"cat_{categoria}")],
         [InlineKeyboardButton("🎲 Aleatorio", callback_data="chiste_aleatorio")],
@@ -231,3 +295,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+cc

@@ -1,0 +1,19 @@
+{
+    "categorias": {
+        "sarcastico": [
+            "Oh, genial, ¡otro correo electrónico! No puedo esperar.",
+            "¡Sí, claro! Porque eso es exactamente lo que necesitaba en mi vida.",
+            "¿Querías un consejo? No, no te atrevas a pedírmelo."
+        ],
+        "animo": [
+            "¡Hoy es un buen día para ser increíble!",
+            "Recuerda que cada día es una nueva oportunidad.",
+            "Eres más fuerte de lo que piensas."
+        ],
+        "melancolia": [
+            "A veces, está bien no estar bien.",
+            "El tiempo puede sanar, pero también puede recordar.",
+            "Las sombras son solo una parte de la luz."
+        ]
+    }
+}
