@@ -1,19 +1,10 @@
-# bot.py
-# 🤖 ChumelitoBot - Bot de Telegram
-# Versión final - 28 Sep 2025
-
 import os
 import json
 import random
 import re
 import aiohttp
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import (
-    Application,
-    CommandHandler,
-    CallbackQueryHandler,
-    ContextTypes,
-)
+from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
 
 # ==============================
 # Configuración
@@ -26,15 +17,20 @@ CHISTES_DIR = "chistes"
 # ==============================
 # Utilidades
 # ==============================
-def limpiar_html(texto: str) -> str:
-    """Limpia etiquetas HTML no permitidas, conserva <b>, <i>, <u>, <code>, <br>"""
+def limpiar_chiste(texto: str) -> str:
+    """Limpia HTML parcial para Telegram"""
     if not isinstance(texto, str):
-        return str(texto)
-    texto = re.sub(r"</?(?!b|i|u|code|br)\w+.*?>", "", texto)
-    return texto.replace("<br/>", "\n").replace("<br>", "\n")
+        texto = str(texto)
+    # Reemplazar <p> y </p> por saltos de línea
+    texto = re.sub(r'<\s*p\s*>', '', texto, flags=re.IGNORECASE)
+    texto = re.sub(r'<\s*/\s*p\s*>', '\n\n', texto, flags=re.IGNORECASE)
+    # Reemplazar <br> por salto de línea
+    texto = re.sub(r'<\s*br\s*/?\s*>', '\n', texto, flags=re.IGNORECASE)
+    # Eliminar cualquier tag que no sea <b>, <i>, <u>, <code>, <br>
+    texto = re.sub(r'</?(?!b|i|u|code|br)\w+.*?>', '', texto)
+    return texto.strip()
 
 def cargar_categorias():
-    """Carga los archivos .json en /chistes como categorías"""
     categorias = []
     for archivo in os.listdir(CHISTES_DIR):
         if archivo.endswith(".json"):
@@ -42,37 +38,34 @@ def cargar_categorias():
     return sorted(categorias)
 
 def cargar_chistes(categoria):
-    """Carga los chistes de una categoría"""
+    """
+    Carga chistes de la categoría.
+    Soporta JSON con:
+      - clave "jokes"
+      - lista directa de strings
+    Devuelve lista de chistes limpios.
+    """
     ruta = os.path.join(CHISTES_DIR, f"{categoria}.json")
     try:
         with open(ruta, "r", encoding="utf-8") as f:
             data = json.load(f)
-            # Puede ser dict con clave "chistes" o lista directa
-            if isinstance(data, dict) and "chistes" in data:
-                return data["chistes"]
+
+            # Detectar la lista de chistes
+            if isinstance(data, dict) and "jokes" in data and isinstance(data["jokes"], list):
+                chistes = data["jokes"]
             elif isinstance(data, list):
-                return data
+                chistes = data
             else:
                 print(f"⚠ {ruta} no tiene un formato válido")
                 return []
+
+            # Limpiar HTML
+            return [limpiar_chiste(c) for c in chistes if isinstance(c, str)]
     except Exception as e:
         print(f"❌ Error cargando {ruta}: {e}")
         return []
 
-async def enviar_chiste(update: Update, context: ContextTypes.DEFAULT_TYPE, categoria: str):
-    """Envía un chiste aleatorio de una categoría"""
-    chistes = cargar_chistes(categoria)
-    if not chistes:
-        await update.callback_query.edit_message_text(f"⚠ No hay chistes en {categoria}")
-        return
-
-    chiste = random.choice(chistes)
-    chiste = limpiar_html(chiste)
-
-    await update.callback_query.edit_message_text(f"😂 {chiste}", parse_mode="HTML")
-
 async def obtener_meme():
-    """Obtiene un meme random desde API"""
     url = "https://meme-api.com/gimme"
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
@@ -82,7 +75,7 @@ async def obtener_meme():
             return None
 
 # ==============================
-# Handlers principales
+# Comandos principales
 # ==============================
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
@@ -102,9 +95,10 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = (
         "ℹ️ <b>Ayuda</b>\n\n"
         "👉 /start - Muestra el menú principal\n"
+        "👉 /chistes - Submenú de chistes\n"
         "👉 /meme - Envía un meme aleatorio\n"
-        "👉 /chiste - Muestra un chiste aleatorio\n"
-        "👉 También puedes navegar desde el menú con botones"
+        "👉 /reglas - Muestra reglas del grupo\n"
+        "También puedes navegar desde el menú con botones"
     )
     if update.message:
         await update.message.reply_text(texto, parse_mode="HTML")
@@ -131,59 +125,47 @@ async def meme_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("⚠ No pude obtener un meme ahora mismo.")
 
-async def chiste_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    categorias = cargar_categorias()
-    if not categorias:
-        await update.message.reply_text("⚠ No hay categorías de chistes disponibles.")
-        return
+# ==============================
+# Menú de chistes
+# ==============================
+async def chistes_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    keyboard = [
+        [InlineKeyboardButton("🎲 Aleatorio", callback_data="chiste_aleatorio")],
+        [InlineKeyboardButton("📂 Por categoría", callback_data="categorias_page_0")],
+        [InlineKeyboardButton("🏠 Home", callback_data="help")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    if update.message:
+        await update.message.reply_text("📂 Submenú de chistes:", reply_markup=reply_markup)
+    else:
+        await update.callback_query.edit_message_text("📂 Submenú de chistes:", reply_markup=reply_markup)
 
-    categoria = random.choice(categorias)
-    chistes = cargar_chistes(categoria)
+async def enviar_chiste(update: Update, context: ContextTypes.DEFAULT_TYPE, categoria=None):
+    if categoria:
+        chistes = cargar_chistes(categoria)
+    else:
+        categorias = cargar_categorias()
+        categoria = random.choice(categorias) if categorias else None
+        chistes = cargar_chistes(categoria) if categoria else []
+
     if not chistes:
-        await update.message.reply_text("⚠ No encontré chistes en esta categoría.")
+        await update.callback_query.edit_message_text(f"⚠ No hay chistes en {categoria}")
         return
 
     chiste = random.choice(chistes)
-    chiste = limpiar_html(chiste)
 
-    await update.message.reply_text(f"😂 {chiste}", parse_mode="HTML")
+    keyboard = [
+        [InlineKeyboardButton("🔄 Otro", callback_data=f"cat_{categoria}")],
+        [InlineKeyboardButton("🎲 Aleatorio", callback_data="chiste_aleatorio")],
+        [InlineKeyboardButton("🏠 Home", callback_data="help")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    if update.message:
+        await update.message.reply_text(f"😂 {chiste}", parse_mode="HTML", reply_markup=reply_markup)
+    else:
+        await update.callback_query.edit_message_text(f"😂 {chiste}", parse_mode="HTML", reply_markup=reply_markup)
 
-# ==============================
-# Menús y botones
-# ==============================
-async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
-
-    data = query.data
-
-    if data == "help":
-        await help_command(update, context)
-
-    elif data == "rules":
-        await rules_command(update, context)
-
-    elif data == "meme":
-        meme_url = await obtener_meme()
-        if meme_url:
-            await query.edit_message_media(
-                media={"type": "photo", "media": meme_url}
-            )
-        else:
-            await query.edit_message_text("⚠ No pude obtener un meme ahora mismo.")
-
-    elif data == "chistes_menu":
-        await mostrar_menu_categorias(update, context, 0)
-
-    elif data.startswith("cat_"):
-        categoria = data.split("_", 1)[1]
-        await enviar_chiste(update, context, categoria)
-
-    elif data.startswith("page_"):
-        page = int(data.split("_", 1)[1])
-        await mostrar_menu_categorias(update, context, page)
-
-async def mostrar_menu_categorias(update: Update, context: ContextTypes.DEFAULT_TYPE, page: int):
+async def mostrar_categorias(update: Update, context: ContextTypes.DEFAULT_TYPE, page=0):
     categorias = cargar_categorias()
     if not categorias:
         await update.callback_query.edit_message_text("⚠ No hay categorías disponibles.")
@@ -194,17 +176,14 @@ async def mostrar_menu_categorias(update: Update, context: ContextTypes.DEFAULT_
     fin = inicio + items_por_pagina
     categorias_pagina = categorias[inicio:fin]
 
-    keyboard = []
-    for cat in categorias_pagina:
-        keyboard.append([InlineKeyboardButton(cat.capitalize(), callback_data=f"cat_{cat}")])
+    keyboard = [[InlineKeyboardButton(cat.capitalize(), callback_data=f"cat_{cat}") ] for cat in categorias_pagina]
 
     nav_buttons = []
     if inicio > 0:
-        nav_buttons.append(InlineKeyboardButton("⬅️ Atrás", callback_data=f"page_{page-1}"))
+        nav_buttons.append(InlineKeyboardButton("⬅️ Atrás", callback_data=f"categorias_page_{page-1}"))
     nav_buttons.append(InlineKeyboardButton("🏠 Home", callback_data="help"))
     if fin < len(categorias):
-        nav_buttons.append(InlineKeyboardButton("➡️ Siguiente", callback_data=f"page_{page+1}"))
-
+        nav_buttons.append(InlineKeyboardButton("➡️ Siguiente", callback_data=f"categorias_page_{page+1}"))
     if nav_buttons:
         keyboard.append(nav_buttons)
 
@@ -212,11 +191,40 @@ async def mostrar_menu_categorias(update: Update, context: ContextTypes.DEFAULT_
     await update.callback_query.edit_message_text("📂 Elige una categoría:", reply_markup=reply_markup)
 
 # ==============================
+# Callback de botones
+# ==============================
+async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    data = query.data
+
+    if data == "help":
+        await help_command(update, context)
+    elif data == "rules":
+        await rules_command(update, context)
+    elif data == "meme":
+        meme_url = await obtener_meme()
+        if meme_url:
+            await query.edit_message_media(media={"type": "photo", "media": meme_url})
+        else:
+            await query.edit_message_text("⚠ No pude obtener un meme ahora mismo.")
+    elif data == "chistes_menu":
+        await chistes_menu(update, context)
+    elif data == "chiste_aleatorio":
+        await enviar_chiste(update, context)
+    elif data.startswith("categorias_page_"):
+        page = int(data.split("_")[-1])
+        await mostrar_categorias(update, context, page)
+    elif data.startswith("cat_"):
+        categoria = data.split("_", 1)[1]
+        await enviar_chiste(update, context, categoria=categoria)
+
+# ==============================
 # Main
 # ==============================
 def main():
     if not TOKEN:
-        print("❌ ERROR: Falta TELEGRAM_TOKEN en variables de entorno")
+        print("❌ ERROR: Falta TOKEN en variables de entorno")
         return
 
     app = Application.builder().token(TOKEN).build()
@@ -224,9 +232,9 @@ def main():
     # Comandos
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", help_command))
-    app.add_handler(CommandHandler("rules", rules_command))
+    app.add_handler(CommandHandler("reglas", rules_command))
     app.add_handler(CommandHandler("meme", meme_command))
-    app.add_handler(CommandHandler("chiste", chiste_command))
+    app.add_handler(CommandHandler("chistes", chistes_menu))
 
     # Botones
     app.add_handler(CallbackQueryHandler(button))
