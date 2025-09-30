@@ -1,0 +1,385 @@
+{
+  "categorias": {
+    "ciencia": [
+      { "pregunta": "¿Cuál es el planeta más grande del sistema solar?", "opciones": ["Marte", "Júpiter", "Saturno", "Neptuno"], "respuesta": "Júpiter" },
+      { "pregunta": "¿Qué partícula tiene carga negativa?", "opciones": ["Protón", "Electrón", "Neutrón", "Fotón"], "respuesta": "Electrón" },
+      { "pregunta": "¿Qué gas necesitan las plantas para la fotosíntesis?", "opciones": ["Oxígeno", "Nitrógeno", "Dióxido de carbono", "Helio"], "respuesta": "Dióxido de carbono" },
+      { "pregunta": "¿Cuál es el metal más ligero?", "opciones": ["Aluminio", "Litio", "Magnesio", "Titanio"], "respuesta": "Litio" },
+      { "pregunta": "¿Qué órgano humano produce la insulina?", "opciones": ["Hígado", "Riñón", "Páncreas", "Estómago"], "respuesta": "Páncreas" },
+      { "pregunta": "¿Cuál es la velocidad de la luz?", "opciones": ["300,000 km/s", "150,000 km/s", "30,000 km/s", "3,000 km/s"], "respuesta": "300,000 km/s" },
+      { "pregunta": "¿Cuál es la fórmula química del agua?", "opciones": ["H2", "O2", "H2O", "HO2"], "respuesta": "H2O" },
+      { "pregunta": "¿Qué científico formuló la teoría de la relatividad?", "opciones": ["Newton", "Einstein", "Tesla", "Galileo"], "respuesta": "Einstein" },
+      { "pregunta": "¿Cuál es el hueso más largo del cuerpo humano?", "opciones": ["Fémur", "Húmero", "Tibia", "Columna"], "respuesta": "Fémur" },
+      { "pregunta": "¿Qué planeta es conocido como el planeta rojo?", "opciones": ["Venus", "Marte", "Mercurio", "Urano"], "respuesta": "Marte" }
+    ],
+    "historia": [
+      { "pregunta": "¿En qué año descubrió Colón América?", "opciones": ["1492", "1500", "1600", "1453"], "respuesta": "1492" },
+      { "pregunta": "¿Quién fue el primer presidente de Estados Unidos?", "opciones": ["Abraham Lincoln", "George Washington", "Thomas Jefferson", "John Adams"], "respuesta": "George Washington" },
+      { "pregunta": "¿En qué ciudad se encuentra el Coliseo romano?", "opciones": ["Roma", "Atenas", "París", "Estambul"], "respuesta": "Roma" },
+      { "pregunta": "¿Qué guerra terminó con la caída del Muro de Berlín?", "opciones": ["Primera Guerra Mundial", "Segunda Guerra Mundial", "Guerra Fría", "Guerra de Vietnam"], "respuesta": "Guerra Fría" },
+      { "pregunta": "¿Quién fue el conquistador de México?", "opciones": ["Francisco Pizarro", "Hernán Cortés", "Simón Bolívar", "Cristóbal Colón"], "respuesta": "Hernán Cortés" },
+      { "pregunta": "¿En qué año comenzó la Primera Guerra Mundial?", "opciones": ["1914", "1939", "1920", "1905"], "respuesta": "1914" },
+      { "pregunta": "¿Qué faraón mandó construir la Gran Pirámide de Guiza?", "opciones": ["Keops", "Tutankamón", "Ramsés II", "Cleopatra"], "respuesta": "Keops" },
+      { "pregunta": "¿Cuál fue la primera civilización de Mesopotamia?", "opciones": ["Sumerios", "Egipcios", "Persas", "Griegos"], "respuesta": "Sumerios" },
+      { "pregunta": "¿Qué país usó por primera vez la bomba atómica?", "opciones": ["Alemania", "Estados Unidos", "Japón", "Rusia"], "respuesta": "Estados Unidos" },
+      { "pregunta": "¿Quién fue conocido como el Libertador de América?", "opciones": ["José de San Martín", "Francisco de Miranda", "Simón Bolívar", "Bernardo O’Higgins"], "respuesta": "Simón Bolívar" }
+    ],
+    "cine": [
+      { "pregunta": "¿Quién dirigió la película 'Jurassic Park'?", "opciones": ["Steven Spielberg", "James Cameron", "George Lucas", "Ridley Scott"], "respuesta": "Steven Spielberg" },
+      { "pregunta": "¿Qué personaje dice 'Yo soy tu padre'?", "opciones": ["Luke Skywalker", "Darth Vader", "Han Solo", "Obi-Wan Kenobi"], "respuesta": "Darth Vader" },
+      { "pregunta": "¿Qué película ganó el Oscar a Mejor Película en 1994?", "opciones": ["Pulp Fiction", "Forrest Gump", "The Shawshank Redemption", "Titanic"], "respuesta": "Forrest Gump" },
+      { "pregunta": "¿Quién interpretó al Joker en 'The Dark Knight'?", "opciones": ["Joaquin Phoenix", "Heath Ledger", "Jack Nicholson", "Jared Leto"], "respuesta": "Heath Ledger" },
+      { "pregunta": "¿En qué año se estrenó 'Titanic'?", "opciones": ["1995", "1997", "2000", "1999"], "respuesta": "1997" },
+      { "pregunta": "¿Cuál es la película animada más taquillera de Disney?", "opciones": ["Frozen", "El Rey León", "Toy Story 3", "Zootopia"], "respuesta": "Frozen" },
+      { "pregunta": "¿Quién interpretó a Jack Sparrow en 'Piratas del Caribe'?", "opciones": ["Johnny Depp", "Orlando Bloom", "Hugh Jackman", "Brad Pitt"], "respuesta": "Johnny Depp" },
+      { "pregunta": "¿Qué película popularizó la frase 'Hasta la vista, baby'?", "opciones": ["Matrix", "Terminator 2", "Rocky IV", "Rambo"], "respuesta": "Terminator 2" },
+      { "pregunta": "¿Quién fue el director de 'Avatar'?", "opciones": ["Steven Spielberg", "Peter Jackson", "James Cameron", "Christopher Nolan"], "respuesta": "James Cameron" },
+      { "pregunta": "¿Qué película introdujo a los Minions?", "opciones": ["Mi Villano Favorito", "Shrek 2", "Kung Fu Panda", "Los Increíbles"], "respuesta": "Mi Villano Favorito" }
+    ],
+    "geografía": [
+      { "pregunta": "¿Cuál es el río más largo del mundo?", "opciones": ["Amazonas", "Nilo", "Yangtsé", "Misisipi"], "respuesta": "Amazonas" },
+      { "pregunta": "¿En qué continente está Egipto?", "opciones": ["Asia", "África", "Europa", "América"], "respuesta": "África" },
+      { "pregunta": "¿Cuál es la capital de Canadá?", "opciones": ["Toronto", "Ottawa", "Montreal", "Vancouver"], "respuesta": "Ottawa" },
+      { "pregunta": "¿Cuál es el desierto más grande del mundo?", "opciones": ["Sahara", "Kalahari", "Gobi", "Atacama"], "respuesta": "Sahara" },
+      { "pregunta": "¿Cuál es el país más poblado del mundo?", "opciones": ["India", "China", "Estados Unidos", "Indonesia"], "respuesta": "China" },
+      { "pregunta": "¿En qué océano está Madagascar?", "opciones": ["Atlántico", "Índico", "Pacífico", "Ártico"], "respuesta": "Índico" },
+      { "pregunta": "¿Qué país tiene forma de bota?", "opciones": ["Francia", "España", "Italia", "Portugal"], "respuesta": "Italia" },
+      { "pregunta": "¿Cuál es el monte más alto del mundo?", "opciones": ["K2", "Everest", "Makalu", "Kilimanjaro"], "respuesta": "Everest" },
+      { "pregunta": "¿Qué país limita con más naciones?", "opciones": ["Rusia", "China", "Brasil", "Alemania"], "respuesta": "China" },
+      { "pregunta": "¿Cuál es la capital de Australia?", "opciones": ["Sídney", "Canberra", "Melbourne", "Brisbane"], "respuesta": "Canberra" }
+    ],
+    "literatura": [
+      { "pregunta": "¿Quién escribió 'Don Quijote de la Mancha'?", "opciones": ["Cervantes", "Shakespeare", "Quevedo", "Lope de Vega"], "respuesta": "Cervantes" },
+      { "pregunta": "¿Qué autor escribió 'Romeo y Julieta'?", "opciones": ["Shakespeare", "Dante", "Cervantes", "Molière"], "respuesta": "Shakespeare" },
+      { "pregunta": "¿Quién es el autor de 'Cien años de soledad'?", "opciones": ["Borges", "Gabriel García Márquez", "Pablo Neruda", "Mario Vargas Llosa"], "respuesta": "Gabriel García Márquez" },
+      { "pregunta": "¿Qué escritor creó a Sherlock Holmes?", "opciones": ["Arthur Conan Doyle", "Agatha Christie", "Edgar Allan Poe", "Mark Twain"], "respuesta": "Arthur Conan Doyle" },
+      { "pregunta": "¿Qué novela comienza con 'En un lugar de la Mancha...'?", "opciones": ["Don Quijote", "La Celestina", "El Lazarillo", "El Cid"], "respuesta": "Don Quijote" },
+      { "pregunta": "¿Qué autor escribió 'La Odisea'?", "opciones": ["Homero", "Sófocles", "Virgilio", "Platón"], "respuesta": "Homero" },
+      { "pregunta": "¿Quién escribió 'La Divina Comedia'?", "opciones": ["Dante Alighieri", "Boccaccio", "Petrarca", "Maquiavelo"], "respuesta": "Dante Alighieri" },
+      { "pregunta": "¿Qué autor escribió 'Fausto'?", "opciones": ["Goethe", "Nietzsche", "Hesse", "Kafka"], "respuesta": "Goethe" },
+      { "pregunta": "¿Quién es el autor de 'El Principito'?", "opciones": ["Antoine de Saint-Exupéry", "Victor Hugo", "Balzac", "Molière"], "respuesta": "Antoine de Saint-Exupéry" },
+      { "pregunta": "¿Qué autor escribió 'Crimen y Castigo'?", "opciones": ["Dostoievski", "Tolstoi", "Chejov", "Pushkin"], "respuesta": "Dostoievski" }
+    ],
+    "anime": [
+      {
+        "pregunta": "¿Quién es el creador de Dragon Ball?",
+        "opciones": ["Masashi Kishimoto", "Eiichiro Oda", "Akira Toriyama", "Yoshihiro Togashi"],
+        "respuesta": "Akira Toriyama"
+      },
+      {
+        "pregunta": "¿Cuál es el nombre completo de L en Death Note?",
+        "opciones": ["L Lawliet", "Light Yagami", "Ryuk Shinigami", "Near"],
+        "respuesta": "L Lawliet"
+      },
+      {
+        "pregunta": "¿En qué anime aparece Edward Elric?",
+        "opciones": ["Naruto", "Bleach", "Fullmetal Alchemist", "Attack on Titan"],
+        "respuesta": "Fullmetal Alchemist"
+      },
+      {
+        "pregunta": "¿Quién es el capitán del barco Going Merry?",
+        "opciones": ["Luffy", "Zoro", "Sanji", "Usopp"],
+        "respuesta": "Luffy"
+      },
+      {
+        "pregunta": "¿En qué año se estrenó Neon Genesis Evangelion?",
+        "opciones": ["1995", "2000", "1989", "1998"],
+        "respuesta": "1995"
+      },
+      {
+        "pregunta": "¿Cómo se llama el zorro de nueve colas en Naruto?",
+        "opciones": ["Kurama", "Shukaku", "Son Gokū", "Gyūki"],
+        "respuesta": "Kurama"
+      },
+      {
+        "pregunta": "¿Quién creó One Piece?",
+        "opciones": ["Tite Kubo", "Eiichiro Oda", "Akira Toriyama", "Yoshihiro Togashi"],
+        "respuesta": "Eiichiro Oda"
+      },
+      {
+        "pregunta": "¿Qué arma usa Kenshin Himura?",
+        "opciones": ["Katana de filo invertido", "Nodachi", "Lanza", "Arco"],
+        "respuesta": "Katana de filo invertido"
+      },
+      {
+        "pregunta": "¿En qué ciudad vive Kaneki en Tokyo Ghoul?",
+        "opciones": ["Kyoto", "Osaka", "Tokio", "Nagoya"],
+        "respuesta": "Tokio"
+      },
+      {
+        "pregunta": "¿Quién es el protagonista de Cowboy Bebop?",
+        "opciones": ["Vash the Stampede", "Spike Spiegel", "Jet Black", "Edward"],
+        "respuesta": "Spike Spiegel"
+      }
+    ],
+    "musica": [
+      {
+        "pregunta": "¿Quién es conocido como el 'Rey del Pop'?",
+        "opciones": ["Elvis Presley", "Michael Jackson", "Prince", "Freddie Mercury"],
+        "respuesta": "Michael Jackson"
+      },
+      {
+        "pregunta": "¿Qué instrumento toca Jimi Hendrix?",
+        "opciones": ["Piano", "Guitarra", "Batería", "Bajo"],
+        "respuesta": "Guitarra"
+      },
+      {
+        "pregunta": "¿Qué grupo cantó 'Bohemian Rhapsody'?",
+        "opciones": ["The Beatles", "Queen", "Pink Floyd", "Led Zeppelin"],
+        "respuesta": "Queen"
+      },
+      {
+        "pregunta": "¿En qué país nació Mozart?",
+        "opciones": ["Alemania", "Austria", "Italia", "Francia"],
+        "respuesta": "Austria"
+      },
+      {
+        "pregunta": "¿Qué cantante es conocida como 'La Reina del Tex-Mex'?",
+        "opciones": ["Selena Quintanilla", "Shakira", "Gloria Estefan", "Jennifer Lopez"],
+        "respuesta": "Selena Quintanilla"
+      },
+      {
+        "pregunta": "¿Qué instrumento tiene teclas blancas y negras?",
+        "opciones": ["Acordeón", "Órgano", "Piano", "Teclado"],
+        "respuesta": "Piano"
+      },
+      {
+        "pregunta": "¿Qué banda grabó el álbum 'The Dark Side of the Moon'?",
+        "opciones": ["Pink Floyd", "The Rolling Stones", "Queen", "The Doors"],
+        "respuesta": "Pink Floyd"
+      },
+      {
+        "pregunta": "¿Quién canta la canción 'Shape of You'?",
+        "opciones": ["Justin Bieber", "Ed Sheeran", "Sam Smith", "Shawn Mendes"],
+        "respuesta": "Ed Sheeran"
+      },
+      {
+        "pregunta": "¿Qué cantante mexicana es conocida como 'La Diva de la Banda'?",
+        "opciones": ["Paquita la del Barrio", "Jenni Rivera", "Gloria Trevi", "Ana Bárbara"],
+        "respuesta": "Jenni Rivera"
+      },
+      {
+        "pregunta": "¿Qué instrumento de cuerda se usa en los mariachis?",
+        "opciones": ["Violín", "Guitarra", "Vihuela", "Todas las anteriores"],
+        "respuesta": "Todas las anteriores"
+      }
+    ],
+    "tecnologia": [
+      {
+        "pregunta": "¿Quién fundó Microsoft?",
+        "opciones": ["Steve Jobs", "Bill Gates", "Elon Musk", "Mark Zuckerberg"],
+        "respuesta": "Bill Gates"
+      },
+      {
+        "pregunta": "¿Qué significa 'HTTP'?",
+        "opciones": ["HyperText Transfer Protocol", "HighText Transfer Protocol", "HyperText Transmission Protocol", "HyperTransfer Text Protocol"],
+        "respuesta": "HyperText Transfer Protocol"
+      },
+      {
+        "pregunta": "¿Qué empresa creó el iPhone?",
+        "opciones": ["Samsung", "Google", "Apple", "Nokia"],
+        "respuesta": "Apple"
+      },
+      {
+        "pregunta": "¿Qué lenguaje se ejecuta en los navegadores?",
+        "opciones": ["Python", "Java", "JavaScript", "C++"],
+        "respuesta": "JavaScript"
+      },
+      {
+        "pregunta": "¿Qué es una GPU?",
+        "opciones": ["Unidad de Procesamiento Gráfico", "Unidad de Procesamiento General", "Memoria de Video", "Disco Duro"],
+        "respuesta": "Unidad de Procesamiento Gráfico"
+      },
+      {
+        "pregunta": "¿Quién fundó Tesla Motors?",
+        "opciones": ["Jeff Bezos", "Elon Musk", "Steve Jobs", "Larry Page"],
+        "respuesta": "Elon Musk"
+      },
+      {
+        "pregunta": "¿Qué significa 'AI'?",
+        "opciones": ["Artificial Intelligence", "Automatic Interface", "Advanced Internet", "Android Integration"],
+        "respuesta": "Artificial Intelligence"
+      },
+      {
+        "pregunta": "¿Qué es Linux?",
+        "opciones": ["Un sistema operativo", "Un navegador", "Un lenguaje de programación", "Una red social"],
+        "respuesta": "Un sistema operativo"
+      },
+      {
+        "pregunta": "¿En qué año se lanzó Facebook?",
+        "opciones": ["2004", "2006", "2000", "2010"],
+        "respuesta": "2004"
+      },
+      {
+        "pregunta": "¿Qué significa 'URL'?",
+        "opciones": ["Universal Resource Locator", "Uniform Resource Locator", "United Resource Link", "Unique Resource Locator"],
+        "respuesta": "Uniform Resource Locator"
+      }
+    ],
+    "videojuegos": [
+      {
+        "pregunta": "¿Quién es el fontanero más famoso de los videojuegos?",
+        "opciones": ["Luigi", "Mario", "Wario", "Toad"],
+        "respuesta": "Mario"
+      },
+      {
+        "pregunta": "¿En qué juego aparece Master Chief?",
+        "opciones": ["Halo", "Gears of War", "Call of Duty", "Destiny"],
+        "respuesta": "Halo"
+      },
+      {
+        "pregunta": "¿Qué empresa creó la consola PlayStation?",
+        "opciones": ["Microsoft", "Sony", "Nintendo", "Sega"],
+        "respuesta": "Sony"
+      },
+      {
+        "pregunta": "¿En qué juego aparece la Trifuerza?",
+        "opciones": ["Final Fantasy", "The Legend of Zelda", "Dragon Quest", "Kingdom Hearts"],
+        "respuesta": "The Legend of Zelda"
+      },
+      {
+        "pregunta": "¿Cuál fue la primera consola de Nintendo?",
+        "opciones": ["Super Nintendo", "NES", "Game Boy", "Nintendo 64"],
+        "respuesta": "NES"
+      },
+      {
+        "pregunta": "¿Qué videojuego popularizó el 'Battle Royale'?",
+        "opciones": ["Fortnite", "PUBG", "Apex Legends", "Call of Duty: Warzone"],
+        "respuesta": "PUBG"
+      },
+      {
+        "pregunta": "¿En qué juego debes atrapar criaturas llamadas Pokémon?",
+        "opciones": ["Digimon", "Pokémon", "Monster Hunter", "Dragon Quest"],
+        "respuesta": "Pokémon"
+      },
+      {
+        "pregunta": "¿Qué empresa desarrolló Minecraft?",
+        "opciones": ["Mojang", "Epic Games", "Valve", "Ubisoft"],
+        "respuesta": "Mojang"
+      },
+      {
+        "pregunta": "¿Quién es el protagonista de la saga God of War?",
+        "opciones": ["Zeus", "Kratos", "Ares", "Hades"],
+        "respuesta": "Kratos"
+      },
+      {
+        "pregunta": "¿Qué significa 'MMORPG'?",
+        "opciones": ["Massive Multiplayer Online Role-Playing Game", "Mega Multiplayer Online Role-Playing Game", "Massive Multiplayer Offline Role-Playing Game", "Multiple Mini Online Role-Playing Game"],
+        "respuesta": "Massive Multiplayer Online Role-Playing Game"
+      }
+    ]    ,
+    "deportes": [
+      { "pregunta": "¿Cuántos jugadores hay en un equipo de fútbol?", "opciones": ["9", "10", "11", "12"], "respuesta": "11" },
+      { "pregunta": "¿En qué país se originó el béisbol?", "opciones": ["Estados Unidos", "México", "Japón", "Cuba"], "respuesta": "Estados Unidos" },
+      { "pregunta": "¿Quién tiene más títulos de Fórmula 1?", "opciones": ["Ayrton Senna", "Michael Schumacher", "Lewis Hamilton", "Sebastian Vettel"], "respuesta": "Lewis Hamilton" },
+      { "pregunta": "¿Cuánto dura un partido de baloncesto NBA?", "opciones": ["40 min", "48 min", "60 min", "50 min"], "respuesta": "48 min" },
+      { "pregunta": "¿Qué deporte usa la ‘pelota de rugby’?", "opciones": ["Fútbol americano", "Rugby", "Cricket", "Handball"], "respuesta": "Rugby" },
+      { "pregunta": "¿Qué país ganó la Copa Mundial de 2018?", "opciones": ["Brasil", "Alemania", "Francia", "Argentina"], "respuesta": "Francia" },
+      { "pregunta": "¿En qué deporte destaca Serena Williams?", "opciones": ["Golf", "Tenis", "Natación", "Fútbol"], "respuesta": "Tenis" },
+      { "pregunta": "¿Cuántos puntos vale un try en rugby?", "opciones": ["3", "5", "7", "4"], "respuesta": "5" },
+      { "pregunta": "¿En qué país se inventó el ping pong?", "opciones": ["China", "Inglaterra", "Japón", "Estados Unidos"], "respuesta": "Inglaterra" },
+      { "pregunta": "¿Qué deporte es conocido como 'el rey de los deportes'?", "opciones": ["Fútbol", "Baloncesto", "Tenis", "Boxeo"], "respuesta": "Fútbol" }
+    ],
+    "cultura": [
+      { "pregunta": "¿En qué país se originó el sushi?", "opciones": ["China", "Japón", "Corea", "Tailandia"], "respuesta": "Japón" },
+      { "pregunta": "¿Cuál es la lengua más hablada en el mundo?", "opciones": ["Inglés", "Español", "Mandarín", "Hindi"], "respuesta": "Mandarín" },
+      { "pregunta": "¿Qué fiesta se celebra el 5 de mayo en México?", "opciones": ["Día de la Independencia", "Cinco de Mayo", "Día de los Muertos", "Navidad"], "respuesta": "Cinco de Mayo" },
+      { "pregunta": "¿Qué país es famoso por los tulipanes?", "opciones": ["Alemania", "Países Bajos", "Bélgica", "Francia"], "respuesta": "Países Bajos" },
+      { "pregunta": "¿Cuál es la bebida tradicional de Escocia?", "opciones": ["Whisky", "Vino", "Cerveza", "Sake"], "respuesta": "Whisky" },
+      { "pregunta": "¿Qué cultura construyó Machu Picchu?", "opciones": ["Azteca", "Inca", "Maya", "Olmeca"], "respuesta": "Inca" },
+      { "pregunta": "¿Qué ciudad es conocida como la 'ciudad de la luz'?", "opciones": ["Roma", "París", "Londres", "Nueva York"], "respuesta": "París" },
+      { "pregunta": "¿En qué país se celebra el carnaval de Río?", "opciones": ["México", "Brasil", "España", "Argentina"], "respuesta": "Brasil" },
+      { "pregunta": "¿Qué instrumento es típico del flamenco?", "opciones": ["Guitarra", "Violín", "Piano", "Flauta"], "respuesta": "Guitarra" },
+      { "pregunta": "¿Qué país es famoso por el tango?", "opciones": ["Chile", "Argentina", "Uruguay", "España"], "respuesta": "Argentina" }
+    ],
+    "mitologia": [
+      { "pregunta": "¿Quién es el dios griego del mar?", "opciones": ["Zeus", "Hades", "Poseidón", "Apolo"], "respuesta": "Poseidón" },
+      { "pregunta": "¿Quién fue castigado a cargar el mundo en la mitología griega?", "opciones": ["Hércules", "Atlas", "Prometeo", "Odiseo"], "respuesta": "Atlas" },
+      { "pregunta": "¿Qué dios romano es equivalente a Zeus?", "opciones": ["Júpiter", "Marte", "Neptuno", "Plutón"], "respuesta": "Júpiter" },
+      { "pregunta": "¿Quién robó el fuego a los dioses para darlo a los humanos?", "opciones": ["Atlas", "Prometeo", "Hércules", "Hermes"], "respuesta": "Prometeo" },
+      { "pregunta": "¿Quién es el dios del inframundo en la mitología griega?", "opciones": ["Hades", "Ares", "Dionisio", "Hermes"], "respuesta": "Hades" },
+      { "pregunta": "¿Qué héroe mató a Medusa?", "opciones": ["Perseo", "Ulises", "Aquiles", "Hércules"], "respuesta": "Perseo" },
+      { "pregunta": "¿Quién era el dios del amor en la mitología romana?", "opciones": ["Eros", "Cupid", "Venus", "Mars"], "respuesta": "Cupid" },
+      { "pregunta": "¿Cuál es la diosa griega de la sabiduría?", "opciones": ["Afrodita", "Atenea", "Artemisa", "Hera"], "respuesta": "Atenea" },
+      { "pregunta": "¿Quién llevó a los argonautas en busca del vellocino de oro?", "opciones": ["Perseo", "Hércules", "Jasón", "Aquiles"], "respuesta": "Jasón" },
+      { "pregunta": "¿Qué dios griego tiene alas en los pies?", "opciones": ["Hermes", "Ares", "Apolo", "Zeus"], "respuesta": "Hermes" }
+    ],
+    "comida": [
+      { "pregunta": "¿Cuál es el ingrediente principal del guacamole?", "opciones": ["Tomate", "Aguacate", "Cebolla", "Chile"], "respuesta": "Aguacate" },
+      { "pregunta": "¿De qué país es originaria la pizza?", "opciones": ["España", "Italia", "Grecia", "Francia"], "respuesta": "Italia" },
+      { "pregunta": "¿Qué tipo de pasta es en forma de tiras largas y delgadas?", "opciones": ["Macarrones", "Fusilli", "Spaghetti", "Penne"], "respuesta": "Spaghetti" },
+      { "pregunta": "¿Qué fruta es conocida como la 'reina de las frutas' en Asia?", "opciones": ["Mango", "Durian", "Lychee", "Papaya"], "respuesta": "Durian" },
+      { "pregunta": "¿Cuál es el ingrediente principal del hummus?", "opciones": ["Garbanzos", "Lentejas", "Frijoles", "Maíz"], "respuesta": "Garbanzos" },
+      { "pregunta": "¿Qué bebida se obtiene de la fermentación de la manzana?", "opciones": ["Sidra", "Vino", "Cerveza", "Whisky"], "respuesta": "Sidra" },
+      { "pregunta": "¿Cuál es la comida típica de Japón hecha con arroz y pescado crudo?", "opciones": ["Sushi", "Ramen", "Tempura", "Okonomiyaki"], "respuesta": "Sushi" },
+      { "pregunta": "¿Qué alimento es base del desayuno inglés tradicional?", "opciones": ["Tostadas", "Huevos y tocino", "Panqueques", "Cereal"], "respuesta": "Huevos y tocino" },
+      { "pregunta": "¿Qué fruta se usa para hacer vino tinto?", "opciones": ["Uva", "Manzana", "Pera", "Cereza"], "respuesta": "Uva" },
+      { "pregunta": "¿Qué tipo de queso es típico de Italia?", "opciones": ["Cheddar", "Parmesano", "Gouda", "Roquefort"], "respuesta": "Parmesano" }
+    ],
+    "television": [
+      { "pregunta": "¿Qué serie tiene a Walter White como protagonista?", "opciones": ["Breaking Bad", "Narcos", "The Wire", "Prison Break"], "respuesta": "Breaking Bad" },
+      { "pregunta": "¿En qué ciudad ocurre 'Friends'?", "opciones": ["Chicago", "Los Ángeles", "Nueva York", "Boston"], "respuesta": "Nueva York" },
+      { "pregunta": "¿Qué personaje es famoso por decir 'D'oh!'?", "opciones": ["Peter Griffin", "Homer Simpson", "Stewie Griffin", "Bart Simpson"], "respuesta": "Homer Simpson" },
+      { "pregunta": "¿Quién es el creador de 'The Simpsons'?", "opciones": ["Matt Groening", "Seth MacFarlane", "Trey Parker", "Matt Stone"], "respuesta": "Matt Groening" },
+      { "pregunta": "¿Qué serie tiene lugar en Westeros?", "opciones": ["Game of Thrones", "Vikings", "The Witcher", "Merlin"], "respuesta": "Game of Thrones" },
+      { "pregunta": "¿En qué serie aparece el personaje Sheldon Cooper?", "opciones": ["Friends", "The Big Bang Theory", "How I Met Your Mother", "Modern Family"], "respuesta": "The Big Bang Theory" },
+      { "pregunta": "¿Qué programa de TV presenta concursos de preguntas y respuestas?", "opciones": ["Jeopardy!", "Friends", "Breaking Bad", "Survivor"], "respuesta": "Jeopardy!" },
+      { "pregunta": "¿Qué serie tiene un barco llamado 'Going Merry'?", "opciones": ["One Piece", "Naruto", "Bleach", "Fairy Tail"], "respuesta": "One Piece" },
+      { "pregunta": "¿Qué personaje dice 'I am the danger'?", "opciones": ["Tony Soprano", "Walter White", "Saul Goodman", "Jesse Pinkman"], "respuesta": "Walter White" },
+      { "pregunta": "¿En qué serie los zombies atacan a los sobrevivientes?", "opciones": ["The Walking Dead", "Stranger Things", "Black Summer", "Fear the Walking Dead"], "respuesta": "The Walking Dead" }
+    ],
+    "arte": [
+      { "pregunta": "¿Quién pintó la Mona Lisa?", "opciones": ["Vincent van Gogh", "Leonardo da Vinci", "Pablo Picasso", "Michelangelo"], "respuesta": "Leonardo da Vinci" },
+      { "pregunta": "¿Qué estilo pictórico es conocido por sus formas geométricas y colores brillantes?", "opciones": ["Cubismo", "Impresionismo", "Surrealismo", "Barroco"], "respuesta": "Cubismo" },
+      { "pregunta": "¿Quién pintó 'La noche estrellada'?", "opciones": ["Claude Monet", "Vincent van Gogh", "Salvador Dalí", "Pablo Picasso"], "respuesta": "Vincent van Gogh" },
+      { "pregunta": "¿Qué escultor creó 'El David'?", "opciones": ["Miguel Ángel", "Donatello", "Rodin", "Gian Lorenzo Bernini"], "respuesta": "Miguel Ángel" },
+      { "pregunta": "¿Qué pintor español es famoso por el surrealismo?", "opciones": ["Pablo Picasso", "Salvador Dalí", "Francisco Goya", "Joan Miró"], "respuesta": "Salvador Dalí" },
+      { "pregunta": "¿Qué corriente artística se caracteriza por captar la luz y la naturaleza?", "opciones": ["Impresionismo", "Cubismo", "Barroco", "Romanticismo"], "respuesta": "Impresionismo" },
+      { "pregunta": "¿Quién pintó 'El grito'?", "opciones": ["Edvard Munch", "Vincent van Gogh", "Claude Monet", "Gustav Klimt"], "respuesta": "Edvard Munch" },
+      { "pregunta": "¿Qué artista pintó los frescos de la Capilla Sixtina?", "opciones": ["Leonardo da Vinci", "Miguel Ángel", "Rafael", "Donatello"], "respuesta": "Miguel Ángel" },
+      { "pregunta": "¿Qué movimiento artístico es caracterizado por la exageración y dramatismo?", "opciones": ["Barroco", "Romanticismo", "Impresionismo", "Realismo"], "respuesta": "Barroco" },
+      { "pregunta": "¿Quién es conocido por el 'Guernica'?", "opciones": ["Pablo Picasso", "Salvador Dalí", "Joan Miró", "Francisco Goya"], "respuesta": "Pablo Picasso" }
+    ],
+    "naturaleza": [
+      { "pregunta": "¿Qué gas respiramos principalmente?", "opciones": ["Oxígeno", "Nitrógeno", "Dióxido de carbono", "Hidrógeno"], "respuesta": "Oxígeno" },
+      { "pregunta": "¿Cuál es el mamífero más grande del mundo?", "opciones": ["Elefante africano", "Ballena azul", "Rinoceronte", "Orca"], "respuesta": "Ballena azul" },
+      { "pregunta": "¿Qué árbol produce bellotas?", "opciones": ["Roble", "Pino", "Castaño", "Abedul"], "respuesta": "Roble" },
+      { "pregunta": "¿Qué animal es conocido por cambiar de color?", "opciones": ["Camaleón", "Lagarto", "Iguana", "Salamandra"], "respuesta": "Camaleón" },
+      { "pregunta": "¿Qué fenómeno atmosférico se forma por condensación del vapor de agua?", "opciones": ["Lluvia", "Nieve", "Niebla", "Granizo"], "respuesta": "Niebla" },
+      { "pregunta": "¿Qué ave no puede volar?", "opciones": ["Pingüino", "Águila", "Paloma", "Cisne"], "respuesta": "Pingüino" },
+      { "pregunta": "¿Cuál es el río más largo de África?", "opciones": ["Nilo", "Congo", "Niger", "Zambeze"], "respuesta": "Nilo" },
+      { "pregunta": "¿Qué animal es conocido como 'rey de la selva'?", "opciones": ["Tigre", "León", "Elefante", "Leopardo"], "respuesta": "León" },
+      { "pregunta": "¿Qué tipo de roca se forma a partir del magma?", "opciones": ["Ígnea", "Sedimentaria", "Metamórfica", "Caliza"], "respuesta": "Ígnea" },
+      { "pregunta": "¿Qué gas es esencial para la fotosíntesis?", "opciones": ["Oxígeno", "Dióxido de carbono", "Nitrógeno", "Helio"], "respuesta": "Dióxido de carbono" }
+    ],
+    "viajes": [
+      { "pregunta": "¿Cuál es la capital de Francia?", "opciones": ["París", "Londres", "Madrid", "Roma"], "respuesta": "París" },
+      { "pregunta": "¿Qué país tiene la Torre de Pisa?", "opciones": ["España", "Italia", "Francia", "Alemania"], "respuesta": "Italia" },
+      { "pregunta": "¿En qué continente está Egipto?", "opciones": ["África", "Asia", "Europa", "América"], "respuesta": "África" },
+      { "pregunta": "¿Qué ciudad es conocida como 'La Gran Manzana'?", "opciones": ["Los Ángeles", "Chicago", "Nueva York", "Boston"], "respuesta": "Nueva York" },
+      { "pregunta": "¿Dónde se encuentra la Gran Muralla?", "opciones": ["Japón", "China", "Corea", "India"], "respuesta": "China" },
+      { "pregunta": "¿Qué país es famoso por el carnaval de Venecia?", "opciones": ["Italia", "España", "Brasil", "Francia"], "respuesta": "Italia" },
+      { "pregunta": "¿Cuál es la capital de Australia?", "opciones": ["Sídney", "Melbourne", "Canberra", "Perth"], "respuesta": "Canberra" },
+      { "pregunta": "¿Qué país tiene el Monte Fuji?", "opciones": ["Japón", "China", "Nepal", "Tailandia"], "respuesta": "Japón" },
+      { "pregunta": "¿Qué ciudad es famosa por sus canales?", "opciones": ["Ámsterdam", "Venecia", "Brujas", "Kioto"], "respuesta": "Venecia" },
+      { "pregunta": "¿Cuál es la ciudad más poblada del mundo?", "opciones": ["Tokio", "Nueva York", "Shanghái", "Mumbai"], "respuesta": "Tokio" }
+    ],
+    "animales": [
+      { "pregunta": "¿Cuál es el animal más rápido del mundo?", "opciones": ["Leopardo", "Guepardo", "Águila", "Tigre"], "respuesta": "Guepardo" },
+      { "pregunta": "¿Qué animal es conocido por su cuello largo?", "opciones": ["Elefante", "Jirafa", "Camello", "Cisne"], "respuesta": "Jirafa" },
+      { "pregunta": "¿Qué animal pone huevos?", "opciones": ["Gallina", "Perro", "Gato", "Caballo"], "respuesta": "Gallina" },
+      { "pregunta": "¿Cuál es el mamífero que vuela?", "opciones": ["Murciélago", "Loro", "Águila", "Mariposa"], "respuesta": "Murciélago" },
+      { "pregunta": "¿Qué animal es el rey de la selva?", "opciones": ["Tigre", "León", "Elefante", "Jaguar"], "respuesta": "León" },
+      { "pregunta": "¿Qué animal tiene rayas blancas y negras?", "opciones": ["Cebra", "Tigre", "Pantera", "Leopardo"], "respuesta": "Cebra" },
+      { "pregunta": "¿Qué animal es conocido por su lentitud?", "opciones": ["Tortuga", "Caracol", "Perezoso", "Camaleón"], "respuesta": "Perezoso" },
+      { "pregunta": "¿Qué animal tiene trompa?", "opciones": ["Elefante", "Rinoceronte", "Jirafa", "Hipopótamo"], "respuesta": "Elefante" },
+      { "pregunta": "¿Qué animal vive en el océano y es el más grande?", "opciones": ["Tiburón blanco", "Ballena azul", "Orca", "Calamar gigante"], "respuesta": "Ballena azul" },
+      { "pregunta": "¿Qué insecto produce miel?", "opciones": ["Abeja", "Mosca", "Mariposa", "Avispa"], "respuesta": "Abeja" }
+    ]
+
+
+
+
+
+    }
+}
