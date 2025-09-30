@@ -2,26 +2,27 @@ import os
 import json
 import random
 import re
-import asyncio
 import aiohttp
 from datetime import time
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
+from telegram.ext import (
+    Application, CommandHandler, CallbackQueryHandler, ContextTypes, JobQueue
+)
 
 # ==============================
 # Configuración
 # ==============================
 TOKEN = os.getenv("TOKEN")
 BOT_NAME = "ChumelitoBot"
-VERSION = "vFinal-30Sep2025"
+VERSION = "vFinal-29Sep2025"
 CHISTES_DIR = "chistes"
 JUEGOS_DIR = "juegos"
 
-mensajes_enviados = set()
-trivia_estado = {}
+mensajes_enviados = set()  # Para evitar repetir mensajes diarios
+trivia_estado = {}  # Para controlar preguntas y intentos
 
 # ==============================
-# Mensajes diarios
+# Cargar Mensajes
 # ==============================
 def cargar_mensajes():
     ruta = os.path.join("mjsDelDia", "mjeDiario.json")
@@ -36,24 +37,37 @@ def seleccionar_mensaje(categoria):
     mensajes = cargar_mensajes()
     if not mensajes or categoria not in mensajes["categorias"]:
         return None
+
     opciones = mensajes["categorias"][categoria]
     opciones_disponibles = [m for m in opciones if m not in mensajes_enviados]
+
     if opciones_disponibles:
         mensaje = random.choice(opciones_disponibles)
         mensajes_enviados.add(mensaje)
         return mensaje
     return None
 
-async def enviar_mensaje_diario(context):
-    if not hasattr(context, "job"):
-        print("⚠ JobQueue no disponible, ignorando mensaje diario")
-        return
+# ==============================
+# Enviar Mensaje Diario
+# ==============================
+async def enviar_mensaje_diario(context: ContextTypes.DEFAULT_TYPE):
     categorias = list(cargar_mensajes()["categorias"].keys())
     categoria = random.choice(categorias)
     mensaje = seleccionar_mensaje(categoria)
     if mensaje:
-        texto = f"📅 Mensaje {categoria.capitalize()} del día:\n{mensaje}"
+        texto = f"El Mensaje {categoria.capitalize()} del día: {mensaje}"
         await context.bot.send_message(chat_id=context.job.chat_id, text=texto)
+    else:
+        print("⚠ No hay mensajes disponibles en esta categoría.")
+
+async def programar_mensaje(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not hasattr(context, "job_queue") or not context.job_queue:
+        print("⚠ JobQueue no disponible, ignorando mensaje diario (Railway / getUpdates).")
+        return
+
+    hora = time(9, 0)
+    context.job_queue.run_daily(enviar_mensaje_diario, hora, context=update.effective_chat.id)
+    await update.message.reply_text("✅ Mensaje diario programado a las 9:00 AM.")
 
 # ==============================
 # Utilidades
@@ -124,10 +138,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         parse_mode="HTML",
         reply_markup=reply_markup,
     )
-    # Programar mensaje diario solo si JobQueue está disponible
-    if hasattr(context, "job_queue"):
-        hora = time(9, 0)
-        context.job_queue.run_daily(enviar_mensaje_diario, hora, context=update.message.chat_id)
+    await programar_mensaje(update, context)
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = (
@@ -164,7 +175,7 @@ async def meme_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("⚠ No pude obtener un meme ahora mismo.")
 
 # ==============================
-# Chistes
+# Submenú de chistes
 # ==============================
 async def chistes_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
@@ -203,32 +214,8 @@ async def enviar_chiste(update: Update, context: ContextTypes.DEFAULT_TYPE, cate
     else:
         await update.callback_query.edit_message_text(f"😂 {chiste}", parse_mode="HTML", reply_markup=reply_markup)
 
-async def mostrar_categorias(update: Update, context: ContextTypes.DEFAULT_TYPE, page=0):
-    categorias = cargar_categorias()
-    if not categorias:
-        await update.callback_query.edit_message_text("⚠ No hay categorías disponibles.")
-        return
-    items_por_pagina = 5
-    inicio = page * items_por_pagina
-    fin = inicio + items_por_pagina
-    categorias_pagina = categorias[inicio:fin]
-
-    keyboard = [[InlineKeyboardButton(cat.capitalize(), callback_data=f"cat_{cat}")] for cat in categorias_pagina]
-
-    nav_buttons = []
-    if inicio > 0:
-        nav_buttons.append(InlineKeyboardButton("⬅️ Atrás", callback_data=f"categorias_page_{page-1}"))
-    nav_buttons.append(InlineKeyboardButton("🏠 Home", callback_data="help"))
-    if fin < len(categorias):
-        nav_buttons.append(InlineKeyboardButton("➡️ Siguiente", callback_data=f"categorias_page_{page+1}"))
-    if nav_buttons:
-        keyboard.append(nav_buttons)
-
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.callback_query.edit_message_text("📂 Elige una categoría:", reply_markup=reply_markup)
-
 # ==============================
-# Juegos
+# Submenú de juegos
 # ==============================
 async def juegos_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
@@ -242,8 +229,20 @@ async def juegos_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.callback_query.edit_message_text("🎮 Submenú de juegos:", reply_markup=reply_markup)
 
 # ==============================
-# Trivia
+# Trivia completo
 # ==============================
+async def trivia_submenu(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    keyboard = [
+        [InlineKeyboardButton("🎲 Aleatorio", callback_data="trivia_aleatorio")],
+        [InlineKeyboardButton("📂 Por categoría", callback_data="trivia_categorias_page_0")],
+        [InlineKeyboardButton("🏠 Home", callback_data="help")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    if update.message:
+        await update.message.reply_text("❓ Trivia - Elige una opción:", reply_markup=reply_markup)
+    else:
+        await update.callback_query.edit_message_text("❓ Trivia - Elige una opción:", reply_markup=reply_markup)
+
 async def trivia_inicio(update: Update, context: ContextTypes.DEFAULT_TYPE, categoria=None):
     categorias_trivia = list(cargar_trivia().keys())
     if not categorias_trivia:
@@ -254,10 +253,14 @@ async def trivia_inicio(update: Update, context: ContextTypes.DEFAULT_TYPE, cate
         categoria = random.choice(categorias_trivia)
 
     pregunta = random.choice(cargar_trivia()[categoria])
-    trivia_estado[update.effective_chat.id] = {"categoria": categoria, "pregunta": pregunta, "intentos": 2}
+    trivia_estado[update.effective_chat.id] = {
+        "categoria": categoria,
+        "pregunta": pregunta,
+        "intentos": 2
+    }
 
     opciones = pregunta["opciones"]
-    keyboard = [[InlineKeyboardButton(opt, callback_data=f"trivia_{opt}")] for opt in opciones]
+    keyboard = [[InlineKeyboardButton(opt, callback_data=f"trivia_resp_{opt}")] for opt in opciones]
     keyboard.append([InlineKeyboardButton("🏠 Home", callback_data="help")])
     reply_markup = InlineKeyboardMarkup(keyboard)
 
@@ -271,41 +274,31 @@ async def trivia_respuesta(update: Update, context: ContextTypes.DEFAULT_TYPE, o
     chat_id = update.effective_chat.id
     estado = trivia_estado.get(chat_id)
     if not estado:
-        await update.callback_query.edit_message_text(
-            "⚠ No hay trivia iniciada. Inicia desde el menú de juegos."
-        )
+        await trivia_submenu(update, context)
         return
 
     correcta = estado["pregunta"]["respuesta"]
-
     if opcion == correcta:
-        await update.callback_query.edit_message_text(f"✅ ¡Correcto! La respuesta es: {correcta}.")
+        await update.callback_query.edit_message_text(
+            f"✅ Correcto! La respuesta es {correcta}.\n\n"
+            "Puedes elegir otra pregunta o volver al menú de trivia."
+        )
         trivia_estado.pop(chat_id)
-        await asyncio.sleep(1)
-        await mostrar_submenu_trivia(update, context)
     else:
         estado["intentos"] -= 1
         if estado["intentos"] > 0:
             await update.callback_query.answer(
-                f"❌ Incorrecto. Te queda {estado['intentos']} intento(s).", show_alert=True
+                f"❌ Incorrecto! Te quedan {estado['intentos']} intentos.", show_alert=True
             )
         else:
-            await update.callback_query.edit_message_text(f"❌ Incorrecto. La respuesta correcta era: {correcta}.")
+            await update.callback_query.edit_message_text(
+                f"❌ Incorrecto! La respuesta correcta era {correcta}.\n\n"
+                "Puedes elegir otra pregunta o volver al menú de trivia."
+            )
             trivia_estado.pop(chat_id)
-            await asyncio.sleep(1)
-            await mostrar_submenu_trivia(update, context)
-
-async def mostrar_submenu_trivia(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [
-        [InlineKeyboardButton("🎲 Aleatorio", callback_data="trivia_menu")],
-        [InlineKeyboardButton("📂 Por categoría", callback_data="trivia_categoria_menu")],
-        [InlineKeyboardButton("🏠 Home", callback_data="help")]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.callback_query.message.reply_text("❓ Elige una opción de Trivia:", reply_markup=reply_markup)
 
 # ==============================
-# Botón
+# Callback de botones
 # ==============================
 async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -328,19 +321,79 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await enviar_chiste(update, context)
     elif data.startswith("categorias_page_"):
         page = int(data.split("_")[-1])
-        await mostrar_categorias(update, context, page)
+        await mostrar_categorias_chistes(update, context, page)
     elif data.startswith("cat_"):
         categoria = data.split("_", 1)[1]
         await enviar_chiste(update, context, categoria=categoria)
     elif data == "juegos_menu":
         await juegos_menu(update, context)
     elif data == "trivia_menu":
+        await trivia_submenu(update, context)
+    elif data == "trivia_aleatorio":
         await trivia_inicio(update, context)
-    elif data == "trivia_categoria_menu":
-        await mostrar_categorias(update, context, page=0)
-    elif data.startswith("trivia_"):
-        opcion = data.split("_", 1)[1]
+    elif data.startswith("trivia_categorias_page_"):
+        page = int(data.split("_")[-1])
+        await mostrar_categorias_trivia(update, context, page)
+    elif data.startswith("trivia_cat_"):
+        categoria = data.split("_", 2)[2]
+        await trivia_inicio(update, context, categoria=categoria)
+    elif data.startswith("trivia_resp_"):
+        opcion = data.split("_", 2)[2]
         await trivia_respuesta(update, context, opcion)
+
+# ==============================
+# Mostrar categorías chistes
+# ==============================
+async def mostrar_categorias_chistes(update: Update, context: ContextTypes.DEFAULT_TYPE, page=0):
+    categorias = cargar_categorias()
+    if not categorias:
+        await update.callback_query.edit_message_text("⚠ No hay categorías disponibles.")
+        return
+    items_por_pagina = 5
+    inicio = page * items_por_pagina
+    fin = inicio + items_por_pagina
+    categorias_pagina = categorias[inicio:fin]
+
+    keyboard = [[InlineKeyboardButton(cat.capitalize(), callback_data=f"cat_{cat}") ] for cat in categorias_pagina]
+
+    nav_buttons = []
+    if inicio > 0:
+        nav_buttons.append(InlineKeyboardButton("⬅️ Atrás", callback_data=f"categorias_page_{page-1}"))
+    nav_buttons.append(InlineKeyboardButton("🏠 Home", callback_data="help"))
+    if fin < len(categorias):
+        nav_buttons.append(InlineKeyboardButton("➡️ Siguiente", callback_data=f"categorias_page_{page+1}"))
+    if nav_buttons:
+        keyboard.append(nav_buttons)
+
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await update.callback_query.edit_message_text("📂 Elige una categoría de chistes:", reply_markup=reply_markup)
+
+# ==============================
+# Mostrar categorías trivia
+# ==============================
+async def mostrar_categorias_trivia(update: Update, context: ContextTypes.DEFAULT_TYPE, page=0):
+    categorias = list(cargar_trivia().keys())
+    if not categorias:
+        await update.callback_query.edit_message_text("⚠ No hay categorías de trivia disponibles.")
+        return
+    items_por_pagina = 5
+    inicio = page * items_por_pagina
+    fin = inicio + items_por_pagina
+    categorias_pagina = categorias[inicio:fin]
+
+    keyboard = [[InlineKeyboardButton(cat.capitalize(), callback_data=f"trivia_cat_{cat}") ] for cat in categorias_pagina]
+
+    nav_buttons = []
+    if inicio > 0:
+        nav_buttons.append(InlineKeyboardButton("⬅️ Atrás", callback_data=f"trivia_categorias_page_{page-1}"))
+    nav_buttons.append(InlineKeyboardButton("🏠 Home", callback_data="help"))
+    if fin < len(categorias):
+        nav_buttons.append(InlineKeyboardButton("➡️ Siguiente", callback_data=f"trivia_categorias_page_{page+1}"))
+    if nav_buttons:
+        keyboard.append(nav_buttons)
+
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await update.callback_query.edit_message_text("📂 Elige una categoría de trivia:", reply_markup=reply_markup)
 
 # ==============================
 # Main
