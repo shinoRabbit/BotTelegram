@@ -1,19 +1,124 @@
 {
-    "categorias": {
-        "sarcastico": [
-            "Oh, genial, ¡otro correo electrónico! No puedo esperar.",
-            "¡Sí, claro! Porque eso es exactamente lo que necesitaba en mi vida.",
-            "¿Querías un consejo? No, no te atrevas a pedírmelo."
-        ],
-        "animo": [
-            "¡Hoy es un buen día para ser increíble!",
-            "Recuerda que cada día es una nueva oportunidad.",
-            "Eres más fuerte de lo que piensas."
-        ],
-        "melancolia": [
-            "A veces, está bien no estar bien.",
-            "El tiempo puede sanar, pero también puede recordar.",
-            "Las sombras son solo una parte de la luz."
-        ]
-    }
+  "categorias": {
+    "sarcastico": [
+      "Oh, genial, justo lo que no necesitaba hoy.",
+      "Perfecto, otro lunes disfrazado de viernes.",
+      "Claro, porque la vida es tan justa…",
+      "¡Qué sorpresa! Algo salió mal otra vez.",
+      "Me encanta cuando mis planes se arruinan solos.",
+      "Ah, sí, lo típico: yo tenía la culpa, como siempre.",
+      "Nada dice 'diversión' como una fila eterna.",
+      "Exacto, era justo el consejo que no pedí.",
+      "El universo otra vez conspirando… qué creativo.",
+      "¿Podría el día ser más inspirador? Seguro que sí…"
+    ],
+    "animo": [
+      "¡Hoy es un buen día para ser increíble!",
+      "Recuerda que cada día es una nueva oportunidad.",
+      "Eres más fuerte de lo que piensas.",
+      "Una sonrisa puede cambiar tu mundo.",
+      "Confía en el proceso, ¡tú puedes!",
+      "Cada paso que das cuenta, aunque sea pequeño.",
+      "El sol siempre vuelve a salir después de la tormenta.",
+      "Tu esfuerzo de hoy es tu éxito de mañana.",
+      "Lo imposible solo tarda un poco más.",
+      "Eres capaz de cosas asombrosas, nunca lo dudes."
+    ],
+    "melancolia": [
+      "A veces, está bien no estar bien.",
+      "El tiempo puede sanar, pero también puede recordar.",
+      "Las sombras son solo una parte de la luz.",
+      "Algunas ausencias se sienten más que muchas presencias.",
+      "La nostalgia también puede ser un refugio.",
+      "El silencio dice lo que las palabras callan.",
+      "Cada lágrima lleva consigo una historia.",
+      "El viento también guarda secretos.",
+      "Algunas heridas no se ven, pero pesan.",
+      "El ayer a veces visita sin ser invitado."
+    ],
+    "motivacion": [
+      "El éxito es la suma de pequeños esfuerzos diarios.",
+      "Hazlo con miedo, pero hazlo.",
+      "Cada caída es una oportunidad para levantarse más fuerte.",
+      "La disciplina supera al talento.",
+      "Sueña en grande, trabaja duro, mantente humilde.",
+      "No esperes el momento perfecto, créalo.",
+      "El único límite es el que te pones tú mismo.",
+      "Tu futuro depende de lo que hagas hoy.",
+      "La constancia convierte lo difícil en fácil.",
+      "Haz que tu meta sea tan fuerte como tu excusa."
+    ],
+    "humor": [
+      "Si la vida te da limones… ¡haz limonada y véndela cara!",
+      "El dinero no da la felicidad… pero compra pizza, que es parecido.",
+      "Mi meta fitness: correr detrás del camión de los tamales.",
+      "El WiFi lento es la peor forma de tortura moderna.",
+      "El lunes debería ser opcional.",
+      "El que madruga… probablemente se queda con sueño todo el día.",
+      "La dieta empieza el lunes… ¿de qué año? No sé.",
+      "Dormir es gratis, levantarse es carísimo.",
+      "El café no resuelve problemas, pero los hace más llevaderos.",
+      "A veces me sorprendo de lo mucho que procrastino… luego se me pasa."
+    ],
+    "reflexion": [
+      "El tiempo es el recurso más valioso, úsalo bien.",
+      "No puedes cambiar el pasado, pero sí tu presente.",
+      "Cada persona que conoces te enseña algo.",
+      "El silencio también es una respuesta.",
+      "La paciencia es la clave de muchas victorias.",
+      "Valora lo que tienes antes de que falte.",
+      "Las pequeñas cosas hacen la vida grande.",
+      "Escuchar a otros es también escucharte a ti mismo.",
+      "Todo pasa, incluso lo malo.",
+      "Lo más difícil a veces es soltar."
+    ],
+    "amistad": [
+      "Un buen amigo es un tesoro sin precio.",
+      "Los amigos hacen los días más cortos y las noches más largas.",
+      "La verdadera amistad no entiende de distancias.",
+      "Un amigo es alguien que sabe todo de ti y aún así te quiere.",
+      "En la risa compartida se construyen recuerdos eternos.",
+      "La amistad es la familia que uno elige.",
+      "Un café sabe mejor con buena compañía.",
+      "Un abrazo de amigo puede arreglar un mal día.",
+      "Los amigos hacen del mundo un lugar más amable.",
+      "La amistad sincera no necesita palabras."
+    ],
+    "amor": [
+      "Amar es encontrar en la felicidad del otro la propia.",
+      "El amor no se busca, se encuentra.",
+      "Amar es dar sin esperar nada a cambio.",
+      "El verdadero amor es eterno, sin importar el tiempo.",
+      "Un ‘te quiero’ sincero puede cambiar un día.",
+      "El amor es la poesía de los sentidos.",
+      "El amor se mide en detalles, no en palabras.",
+      "El amor verdadero no conoce fronteras.",
+      "La magia del amor está en lo simple.",
+      "El amor es el idioma que todos entienden."
+    ],
+    "sabiduria": [
+      "El que pregunta aprende, el que calla nunca sabrá.",
+      "La sabiduría comienza en la humildad.",
+      "El conocimiento habla, pero la sabiduría escucha.",
+      "No hay camino fácil para lo que vale la pena.",
+      "Aprende de los errores de los demás, no vivirás tanto para cometerlos todos.",
+      "La paciencia es compañera de la sabiduría.",
+      "El sabio puede cambiar de opinión; el necio, nunca.",
+      "No es más sabio quien sabe mucho, sino quien actúa bien.",
+      "Quien tiene un porqué soporta casi cualquier cómo.",
+      "El verdadero sabio es consciente de su ignorancia."
+    ],
+    "zen": [
+      "Sé como el agua: adapta tu forma, pero nunca tu esencia.",
+      "El presente es el único momento que existe.",
+      "La calma es poder.",
+      "Respira hondo, suelta lento.",
+      "Menos es más.",
+      "El silencio es un maestro paciente.",
+      "La paz empieza dentro de ti.",
+      "No busques afuera lo que ya está en tu interior.",
+      "El camino se hace al andar, no al esperar.",
+      "La simplicidad es la máxima sofisticación."
+    ]
+  }
 }
