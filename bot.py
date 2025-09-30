@@ -11,7 +11,7 @@ from telegram.ext import Application, CommandHandler, CallbackQueryHandler, Cont
 # ==============================
 TOKEN = os.getenv("TOKEN")
 BOT_NAME = "ChumelitoBot"
-VERSION = "vFinal-28Sep2025"
+VERSION = "vFinal-29Sep2025"
 CHISTES_DIR = "chistes"
 
 # ==============================
@@ -21,12 +21,9 @@ def limpiar_chiste(texto: str) -> str:
     """Limpia HTML parcial para Telegram"""
     if not isinstance(texto, str):
         texto = str(texto)
-    # Reemplazar <p> y </p> por saltos de línea
     texto = re.sub(r'<\s*p\s*>', '', texto, flags=re.IGNORECASE)
     texto = re.sub(r'<\s*/\s*p\s*>', '\n\n', texto, flags=re.IGNORECASE)
-    # Reemplazar <br> por salto de línea
     texto = re.sub(r'<\s*br\s*/?\s*>', '\n', texto, flags=re.IGNORECASE)
-    # Eliminar cualquier tag que no sea <b>, <i>, <u>, <code>, <br>
     texto = re.sub(r'</?(?!b|i|u|code|br)\w+.*?>', '', texto)
     return texto.strip()
 
@@ -38,19 +35,10 @@ def cargar_categorias():
     return sorted(categorias)
 
 def cargar_chistes(categoria):
-    """
-    Carga chistes de la categoría.
-    Soporta JSON con:
-      - clave "jokes"
-      - lista directa de strings
-    Devuelve lista de chistes limpios.
-    """
     ruta = os.path.join(CHISTES_DIR, f"{categoria}.json")
     try:
         with open(ruta, "r", encoding="utf-8") as f:
             data = json.load(f)
-
-            # Detectar la lista de chistes
             if isinstance(data, dict) and "jokes" in data and isinstance(data["jokes"], list):
                 chistes = data["jokes"]
             elif isinstance(data, list):
@@ -58,8 +46,6 @@ def cargar_chistes(categoria):
             else:
                 print(f"⚠ {ruta} no tiene un formato válido")
                 return []
-
-            # Limpiar HTML
             return [limpiar_chiste(c) for c in chistes if isinstance(c, str)]
     except Exception as e:
         print(f"❌ Error cargando {ruta}: {e}")
@@ -75,7 +61,7 @@ async def obtener_meme():
             return None
 
 # ==============================
-# Comandos principales
+# Comandos
 # ==============================
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
@@ -98,7 +84,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "👉 /chistes - Submenú de chistes\n"
         "👉 /meme - Envía un meme aleatorio\n"
         "👉 /reglas - Muestra reglas del grupo\n"
-        "También puedes navegar desde el menú con botones"
+        "También puedes navegar desde los botones del menú"
     )
     if update.message:
         await update.message.reply_text(texto, parse_mode="HTML")
@@ -126,7 +112,7 @@ async def meme_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("⚠ No pude obtener un meme ahora mismo.")
 
 # ==============================
-# Menú de chistes
+# Submenú de chistes
 # ==============================
 async def chistes_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
@@ -160,6 +146,7 @@ async def enviar_chiste(update: Update, context: ContextTypes.DEFAULT_TYPE, cate
         [InlineKeyboardButton("🏠 Home", callback_data="help")]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
+
     if update.message:
         await update.message.reply_text(f"😂 {chiste}", parse_mode="HTML", reply_markup=reply_markup)
     else:
