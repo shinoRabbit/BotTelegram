@@ -122,7 +122,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         [InlineKeyboardButton("📖 Ayuda", callback_data="help")],
         [InlineKeyboardButton("📜 Reglas", callback_data="rules")],
-        [InlineKeyboardButton("🤣 Chistes", callback_data="chistes_menu")],
+        [InlineKeyboardButton("🤣 Chistes", callback_data="chistes_menu_0")],
         [InlineKeyboardButton("🖼 Meme", callback_data="meme")],
         [InlineKeyboardButton("🎮 Juegos", callback_data="juegos_menu")]
     ]
@@ -141,66 +141,146 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     data = query.data
     await query.answer()
 
+    # --- Ayuda ---
     if data == "help":
         await query.edit_message_text(
             "ℹ️ Ayuda\n/start - Menú principal\n/chistes - Submenú chistes\n/meme - Meme aleatorio\nJuegos - Mini juegos"
         )
+
+    # --- Reglas ---
     elif data == "rules":
         await query.edit_message_text(
             "📜 Reglas del grupo:\n1️⃣ Respeta a los demás\n2️⃣ Nada de spam\n3️⃣ Usa el humor con responsabilidad\n4️⃣ Disfruta y comparte memes"
         )
+
+    # --- Meme ---
     elif data == "meme":
         meme_url = await obtener_meme()
         if meme_url:
-            await query.edit_message_text("Aquí está tu meme: " + meme_url)
+            await query.edit_message_text(f"🖼 Aquí tu meme: {meme_url}")
         else:
             await query.edit_message_text("⚠ No pude obtener un meme ahora mismo.")
-    elif data == "chistes_menu":
+
+    # --- Chistes paginados ---
+    elif data.startswith("chistes_menu_"):
+        page = int(data.split("_")[-1])
         categorias = cargar_categorias()
-        keyboard = [[InlineKeyboardButton(cat.capitalize(), callback_data=f"ch_{cat}")] for cat in categorias[:10]]
-        keyboard.append([InlineKeyboardButton("🏠 Home", callback_data="help")])
+        items_por_pagina = 10
+        inicio = page * items_por_pagina
+        fin = inicio + items_por_pagina
+        categorias_pagina = categorias[inicio:fin]
+
+        keyboard = [[InlineKeyboardButton(cat.capitalize(), callback_data=f"ch_{cat}")] for cat in categorias_pagina]
+
+        nav_buttons = []
+        if inicio > 0:
+            nav_buttons.append(InlineKeyboardButton("⬅️ Atrás", callback_data=f"chistes_menu_{page-1}"))
+        if fin < len(categorias):
+            nav_buttons.append(InlineKeyboardButton("➡️ Siguiente", callback_data=f"chistes_menu_{page+1}"))
+        nav_buttons.append(InlineKeyboardButton("🏠 Home", callback_data="help"))
+        keyboard.append(nav_buttons)
+
         reply_markup = InlineKeyboardMarkup(keyboard)
         await query.edit_message_text("📂 Categorías de chistes:", reply_markup=reply_markup)
+
     elif data.startswith("ch_"):
         cat = data.split("_",1)[1]
         chistes = cargar_chistes(cat)
         if not chistes:
             await query.edit_message_text(f"No hay chistes en {cat}")
         else:
-            await query.edit_message_text(f"😂 {random.choice(chistes)}")
+            keyboard = [[InlineKeyboardButton("🔄 Otro", callback_data=f"ch_{cat}")],
+                        [InlineKeyboardButton("🏠 Home", callback_data="help")]]
+            reply_markup = InlineKeyboardMarkup(keyboard)
+            await query.edit_message_text(f"😂 {random.choice(chistes)}", reply_markup=reply_markup)
+
+    # --- Juegos ---
     elif data == "juegos_menu":
         keyboard = [
-            [InlineKeyboardButton("❓ Trivia", callback_data="trivia_aleatoria")],
+            [InlineKeyboardButton("❓ Trivia", callback_data="trivia_menu_0")],
             [InlineKeyboardButton("🏠 Home", callback_data="help")]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await query.edit_message_text("🎮 Menú de juegos:", reply_markup=reply_markup)
-    elif data == "trivia_aleatoria":
-        cat, preg = elegir_pregunta()
-        if preg:
-            opciones = preg["opciones"]
-            keyboard = [[InlineKeyboardButton(opt, callback_data=f"trivia_{opt}")] for opt in opciones]
-            keyboard.append([InlineKeyboardButton("🏠 Home", callback_data="help")])
-            reply_markup = InlineKeyboardMarkup(keyboard)
-            await query.edit_message_text(f"❓ Trivia ({cat}): {preg['pregunta']}", reply_markup=reply_markup)
+
+    # --- Trivia paginada ---
+    elif data.startswith("trivia_menu_"):
+        page = int(data.split("_")[-1])
+        categorias = list(cargar_trivia().keys())
+        items_por_pagina = 10
+        inicio = page * items_por_pagina
+        fin = inicio + items_por_pagina
+        categorias_pagina = categorias[inicio:fin]
+
+        keyboard = [[InlineKeyboardButton(cat.capitalize(), callback_data=f"trivia_{cat}")] for cat in categorias_pagina]
+
+        nav_buttons = []
+        if inicio > 0:
+            nav_buttons.append(InlineKeyboardButton("⬅️ Atrás", callback_data=f"trivia_menu_{page-1}"))
+        if fin < len(categorias):
+            nav_buttons.append(InlineKeyboardButton("➡️ Siguiente", callback_data=f"trivia_menu_{page+1}"))
+        nav_buttons.append(InlineKeyboardButton("🏠 Home", callback_data="help"))
+        keyboard.append(nav_buttons)
+
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        await query.edit_message_text("📂 Categorías de trivia:", reply_markup=reply_markup)
+
     elif data.startswith("trivia_"):
+        cat = data.split("_",1)[1]
+        categoria, pregunta = elegir_pregunta(cat)
+        if not pregunta:
+            await query.edit_message_text(f"No hay preguntas en {cat}")
+            return
+        chat_id = update.effective_chat.id
+        trivia_estado[chat_id] = {"categoria":categoria,"pregunta":pregunta,"intentos":2,"tipo":"categoria"}
+
+        opciones = pregunta["opciones"]
+        keyboard = [[InlineKeyboardButton(opt, callback_data=f"resp_{opt}")] for opt in opciones]
+        keyboard.append([InlineKeyboardButton("🏠 Home", callback_data="help")])
+        reply_markup = InlineKeyboardMarkup(keyboard)
+
+        texto = f"🎲 Trivia ({categoria}):\n{pregunta['pregunta']}\nTienes 2 intentos"
+        await query.edit_message_text(texto, reply_markup=reply_markup)
+
+    elif data.startswith("resp_"):
         opcion = data.split("_",1)[1]
-        await query.edit_message_text(f"Tu respuesta fue: {opcion}\n✅ Respuesta registrada.")
+        chat_id = update.effective_chat.id
+        estado = trivia_estado.get(chat_id)
+        if not estado:
+            await query.edit_message_text("⚠ No hay trivia activa.")
+            return
+        correcta = estado["pregunta"]["respuesta"]
+        estado["intentos"] -= 1
+        if opcion == correcta:
+            texto = f"✅ Correcto! La respuesta era {correcta}."
+            trivia_estado.pop(chat_id)
+        elif estado["intentos"] > 0:
+            await query.answer(f"❌ Incorrecto! Te quedan {estado['intentos']} intentos.", show_alert=True)
+            return
+        else:
+            texto = f"❌ Incorrecto! La respuesta era {correcta}."
+            trivia_estado.pop(chat_id)
+
+        keyboard = [
+            [InlineKeyboardButton("🎲 Otra pregunta", callback_data=f"trivia_{estado['categoria']}")],
+            [InlineKeyboardButton("🏠 Home", callback_data="help")]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        await query.edit_message_text(texto, reply_markup=reply_markup)
 
 # ==============================
 # Main
 # ==============================
 def main():
     if not TOKEN:
-        print("❌ ERROR: Falta TOKEN en variables de entorno")
+        print("❌ Falta TOKEN en variables de entorno")
         return
 
-    threading.Thread(target=run_flask).start()  # Flask en paralelo
+    threading.Thread(target=run_flask).start()
 
     app_telegram = Application.builder().token(TOKEN).build()
     app_telegram.add_handler(CommandHandler("start", start))
     app_telegram.add_handler(CallbackQueryHandler(button))
-
     print(f"✅ {BOT_NAME} corriendo... | Versión: {VERSION}")
     app_telegram.run_polling()
 
