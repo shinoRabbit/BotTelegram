@@ -122,7 +122,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         parse_mode="HTML",
         reply_markup=reply_markup,
     )
-    # Temporal: mensaje diario en /start
     await enviar_mensaje_diario(update)
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -131,7 +130,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "👉 /start - Menú principal\n"
         "👉 /chistes - Submenú de chistes\n"
         "👉 /meme - Envía un meme aleatorio\n"
-        "👉 Juegos - Mini juegos como trivia\n"
+        "👉 /trivia - Inicia un juego de trivia\n"
         "También puedes navegar usando los botones del menú"
     )
     if update.message:
@@ -159,9 +158,6 @@ async def meme_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("⚠ No pude obtener un meme ahora mismo.")
 
-# ==============================
-# Submenú de chistes
-# ==============================
 async def chistes_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         [InlineKeyboardButton("🎲 Aleatorio", callback_data="chiste_aleatorio")],
@@ -199,9 +195,6 @@ async def enviar_chiste(update: Update, context: ContextTypes.DEFAULT_TYPE, cate
     else:
         await update.callback_query.edit_message_text(f"😂 {chiste}", parse_mode="HTML", reply_markup=reply_markup)
 
-# ==============================
-# Submenú de juegos
-# ==============================
 async def juegos_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         [InlineKeyboardButton("❓ Trivia", callback_data="trivia_menu")],
@@ -265,7 +258,6 @@ async def trivia_respuesta(update: Update, context: ContextTypes.DEFAULT_TYPE, o
         texto = f"❌ Incorrecto! La respuesta correcta era {correcta}."
         trivia_estado.pop(chat_id)
 
-    # Submenú para continuar
     keyboard = [
         [InlineKeyboardButton("🎲 Otra pregunta aleatoria", callback_data="trivia_aleatorio")],
         [InlineKeyboardButton("📂 Elegir categoría", callback_data="trivia_categorias_0")],
@@ -304,7 +296,6 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
     data = query.data
 
-    # --- Menú principal ---
     if data == "help":
         await help_command(update, context)
     elif data == "rules":
@@ -371,6 +362,16 @@ async def mostrar_categorias(update: Update, context: ContextTypes.DEFAULT_TYPE,
     await update.callback_query.edit_message_text("📂 Elige una categoría de chistes:", reply_markup=reply_markup)
 
 # ==============================
+# Nuevo comando para Trivia (coherencia con botones)
+# ==============================
+async def trivia_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    categoria, pregunta = elegir_pregunta()
+    if not pregunta:
+        await update.message.reply_text("⚠ No hay preguntas disponibles.")
+        return
+    await mostrar_pregunta(update, categoria, pregunta, tipo="aleatorio")
+
+# ==============================
 # Main
 # ==============================
 def main():
@@ -386,6 +387,7 @@ def main():
     app.add_handler(CommandHandler("reglas", rules_command))
     app.add_handler(CommandHandler("meme", meme_command))
     app.add_handler(CommandHandler("chistes", chistes_menu))
+    app.add_handler(CommandHandler("trivia", trivia_command))
 
     # Botones
     app.add_handler(CallbackQueryHandler(button))
