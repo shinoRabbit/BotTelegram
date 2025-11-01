@@ -66,7 +66,10 @@ def seleccionar_mensaje(categoria):
     return None
 
 async def enviar_mensaje_diario(update: Update):
-    categorias = list(cargar_mensajes()["categorias"].keys())
+    mensajes = cargar_mensajes()
+    if not mensajes:
+        return
+    categorias = list(mensajes["categorias"].keys())
     categoria = random.choice(categorias)
     mensaje = seleccionar_mensaje(categoria)
     if mensaje:
@@ -175,8 +178,8 @@ async def meme_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("⚠ No pude obtener un meme ahora mismo.")
 
-# --- Resto de funciones chistes, juegos, trivia y button() quedan igual ---
-# (las funciones que ya me enviaste se mantienen sin cambios)
+# --- Aquí irían el resto de funciones para chistes, juegos y trivia ---
+# Asegúrate de incluir todas las funciones que tenías definidas (ej. enviar_chiste, chistes_menu, juegos_menu, trivia_menu, mostrar_pregunta, trivia_respuesta, button, etc.)
 
 # ==============================
 # Main
@@ -186,7 +189,7 @@ def main():
         print("❌ ERROR: Falta TOKEN en variables de entorno")
         return
 
-    # Iniciar Flask en hilo paralelo
+    # Inicia Flask en un hilo paralelo
     threading.Thread(target=run_flask).start()
 
     app_telegram = Application.builder().token(TOKEN).build()
@@ -197,7 +200,7 @@ def main():
     app_telegram.add_handler(CommandHandler("reglas", rules_command))
     app_telegram.add_handler(CommandHandler("meme", meme_command))
     # ... agrega aquí los demás comandos si quieres mantenerlos
-    app_telegram.add_handler(CallbackQueryHandler(button))
+    app_telegram.add_handler(CallbackQueryHandler(button))  # button debe estar definido arriba
 
     print(f"✅ {BOT_NAME} corriendo... | Versión: {VERSION}")
     app_telegram.run_polling()
